@@ -116,7 +116,7 @@ export default new Vuex.Store({
       while (n != state.players.length) {
         if (n > state.players.length) {
           state.players.push({
-            name: 'Player'.concat(state.players.length.toString()),
+            name: 'Player '.concat(state.players.length.toString()),
             score: 0, colour: state.colours[state.players.length],
             roundScore: 0,
           })
