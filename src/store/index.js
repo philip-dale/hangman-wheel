@@ -78,7 +78,8 @@ export default new Vuex.Store({
     showLoseTurnAlert:false,
     showWheelValue:false,
     showWinAlert:false,
-    showNotFoundAlert:false
+    showNotFoundAlert:false,
+    keepAllScores:false
   },
   getters: {
     noPlayers(state) {
@@ -250,7 +251,13 @@ export default new Vuex.Store({
         context.state.gamePhase = 0
       } else if (action === 'guessCorrect') {
         context.state.showWinAlert = true
-        context.state.players[context.state.currentPlayer].score += context.state.players[context.state.currentPlayer].roundScore
+        if (!context.state.keepAllScores) {
+          context.state.players[context.state.currentPlayer].score += context.state.players[context.state.currentPlayer].roundScore
+        } else {
+          context.state.players.forEach(player => {
+            player.score += player.roundScore
+          });
+        }
         context.commit('clearRoundScores')
         context.dispatch('revealPuzzle')
         context.state.gamePhase = 5

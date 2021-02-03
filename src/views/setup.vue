@@ -2,6 +2,9 @@
   <div class="setup">
     <div class="spacer"></div>
     <label class=labelClass>Select Number of Players </label>
+    <b-form-checkbox v-model="keepAllScores" name="check-button" switch>
+      Keep All Scores <b>({{ keepAllScores }})</b>
+    </b-form-checkbox>
     <b-form-spinbutton id="selectPlayers" v-model="noPlayers" min="1" :max="maxPlayers" inline></b-form-spinbutton>
     <div class='setPlayerInfo' v-for="(p, index) in players" :key="index">
       <label class=labelClass>Set Player Name</label>
@@ -20,6 +23,14 @@ export default {
   computed: {
     players() {
       return this.$store.state.players
+    },
+    keepAllScores: {
+      get: function () {
+        return this.$store.state.keepAllScores
+      },
+      set: function (newValue) {
+        this.$store.state.keepAllScores = newValue
+      }
     },
     noPlayers: {
       get: function () {
