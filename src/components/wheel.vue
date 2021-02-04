@@ -85,8 +85,8 @@ export default {
 .wheelContainer {
   overflow:hidden;
   position: relative;
-  margin: 1em auto;
-  border: dashed 1px;
+  margin: 0 auto;
+  border: dashed 2px;
   padding: 0;
   width: 45em; height: 45em;
   border-radius: 50%;
@@ -102,12 +102,14 @@ export default {
   display: flex;
   justify-content: left;
   align-items:center;
-  font-weight: bolder;
+  border: solid 1px;
 }
 
 .sliceText {
+  position: absolute;
   writing-mode: vertical-rl;
   text-orientation: upright;
+  font-weight: bolder;
 }
 
 .pointer {

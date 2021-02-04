@@ -41,7 +41,7 @@ export default {
 }
 
 .letterClassGap{
-    background-color: #52aec500;
+    background-color: #3b745c;
 }
 
 .letterClassHidden{
