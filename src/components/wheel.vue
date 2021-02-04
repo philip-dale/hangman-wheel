@@ -1,12 +1,11 @@
 <template>
-  <div class="wheel-area">
-    <div class="wheel-items">
-      <div class="wheel-item" v-for="(item, index) in wheelSetup" :key="index">
-        <div v-if="wheelIndex == index" class="wheel-text-selected" >{{item.text}}</div>
-        <div v-else class="wheel-text" :style="'background:'+item.colour" >{{item.text}}</div>
-      </div>
+  <div class="wheel-area" ref='wheelArea'>
+    <div class="pointerContainer"><div class="pointer"></div></div>
+    <div class="wheelContainer">
+      <li class='slice' v-for="(item, index) in wheelSetup" :key="index" :style="'transform: rotate(' + ((index - wheelIndex - 0.5)*rotateDeg).toString() + 'deg) skewY(' + skewYDeg.toString() + 'deg); background:' +item.colour">
+        <div class='sliceText' :style="'transform: skewY(' + (skewYDeg * -1).toString() + 'deg);'">{{item.text}}</div>
+      </li>
     </div>
-    
   </div>
 </template>
 
@@ -37,7 +36,14 @@ export default {
     },
     wheelSpinning() {
       return this.$store.state.wheelSpinning
-    }
+    },
+    rotateDeg() {
+      return 360/this.$store.state.wheelSetup.length
+    },
+    skewYDeg() {
+      return (360/this.$store.state.wheelSetup.length) + 90
+    },
+    
   },
   watch: {
     wheelSpinning: function (value) {
@@ -73,58 +79,48 @@ export default {
 .wheel-area {
   width: 100%;
   height: 100%;
+  align-items: center;
 }
 
-.wheel-items {
+.wheelContainer {
+  overflow:hidden;
+  position: relative;
+  margin: 1em auto;
+  border: dashed 1px;
+  padding: 0;
+  width: 45em; height: 45em;
+  border-radius: 50%;
+  list-style: none;
+}
+
+.slice {
+  overflow: hidden;
+  position: absolute;
+  top: 0; right: 0;
+  width: 50%; height: 50%;
+  transform-origin: 0% 100%;
   display: flex;
-  flex-direction: row;
-  height: 100%;
+  justify-content: left;
+  align-items:center;
+  font-weight: bolder;
 }
 
-.wheel-item {
-  flex-grow: 1;
-  height: 100%;
-  /* margin: 5px; */
+.sliceText {
   writing-mode: vertical-rl;
   text-orientation: upright;
+}
+
+.pointer {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
   
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-color: black;
-  border-width:thin;
-  border-style: solid;
+  border-top: 20px solid black;
+  margin: 0 auto;
 }
 
-.wheel-text {
-  width:100%;
-  height:100%;
-  color:black;
-  /* background: turquoise; */
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-color: white;
-  border-width:5px;
-  border-style: solid;
-  
+.pointerContainer {
+  min-width:45em;
 }
-
-.wheel-text-selected {
-  width:100%;
-  height:100%;
-  color:black;
-  border-color: crimson;
-  border-width:5px;
-  border-style: solid;
-  background: rgb(224, 221, 64);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-weight: bolder;
-  font-size: 1.0rem;
-}
-
 </style>

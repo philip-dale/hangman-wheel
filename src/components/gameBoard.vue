@@ -72,7 +72,7 @@ export default {
   flex-direction: column;
 }
 .game-board {
-  background-color: cadetblue;
+  width: 100%;
 }
 
 .board-message {

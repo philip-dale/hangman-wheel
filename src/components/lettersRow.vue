@@ -21,6 +21,7 @@ export default {
 
 <style scopped>
 .letters-row {
+  width:100%;
   display: flex;
   flex-direction: row;
 }

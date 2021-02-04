@@ -110,17 +110,18 @@ export default {
     width:100%;
 }
 .controlsDiv {
-    height: 40%;
+    min-height: 40%;
     width:100%;
 }
 
 .gameDiv {
-    height: 70%;
+    height: 60%;
     width:100%;
 }
 
 .wheelDiv {
-    height: 30%;
+    height: 40%;
     width:100%;
+    overflow: hidden;
 }
 </style>
