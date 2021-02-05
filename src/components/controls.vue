@@ -6,10 +6,10 @@
       v-if="gamePhase == 0"
       variant="primary"
       @click="spin()"
-      >spin</b-button
+      >Spin</b-button
     >
     <b-button class="ctrlBtn" v-else variant="primary" :disabled="true"
-      >spin</b-button
+      >Spin</b-button
     >
     <b-button
       class="ctrlBtn"
