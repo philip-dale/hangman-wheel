@@ -137,6 +137,7 @@ export default {
 .ctrlBtn {
   width: 100%;
   margin: 5px;
+  font-size: 1.2rem;
 }
 
 .control-message {

@@ -110,6 +110,7 @@ export default {
   writing-mode: vertical-rl;
   text-orientation: upright;
   font-weight: bolder;
+  font-size: 1.2rem;
 }
 
 .pointer {
