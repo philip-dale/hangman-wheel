@@ -19,6 +19,9 @@ function arrangePuzzleText(text, puzzleSize) {
                 }
             }
         }
+        while(words[words.length-1] === "") {
+            words.pop()
+        }
         return words
     }
 }
@@ -34,7 +37,6 @@ function arrayToPuzzle(textArray, puzzleSize, showAll) {
     }
 
     let puzzle = [];
-    // textArray.forEach((text, index) => {
     for (let index = 0; index < puzzleSize.length; index++) {
         let text = textArray[index]
         let startPadding = Math.floor(

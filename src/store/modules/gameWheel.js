@@ -2,7 +2,7 @@ export default {
     namespaced: false,
     state: () => ({
         wheelSetup: [
-            { val: 100, text: '£100', colour: '#FF6633' },
+            { val: -2, text: 'BANKRUPT', colour: '#FF6633' },
             { val: 900, text: '£900', colour: '#E6B333' },
             { val: 500, text: '£500', colour: '#80B300' },
             { val: 350, text: '£350', colour: '#FF99E6' },

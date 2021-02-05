@@ -59,6 +59,9 @@ export default {
     skewYDeg() {
       return 360 / this.wheelSetup.length + 90;
     },
+    phaseEnum() {
+      return this.$store.getters.phaseEnum
+    }
   },
   watch: {
     wheelSpinning: function (value) {
@@ -71,7 +74,7 @@ export default {
       }
     },
     gamePhase: function (value) {
-      if (value != 4) {
+      if (value != this.phaseEnum.spinning) {
         clearInterval(this.interval);
       }
     },

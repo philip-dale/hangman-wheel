@@ -3,7 +3,7 @@
     <div class="control-message">{{ phaseText }}</div>
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == 0"
+      v-if="gamePhase == phaseEnum.play"
       variant="primary"
       @click="spin()"
       >Spin</b-button
@@ -13,7 +13,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == 0 && playerRoundScore >= 250"
+      v-if="gamePhase == phaseEnum.play && playerRoundScore >= vowelCost"
       variant="primary"
       @click="$bvModal.show('buy-vowel-modal')"
       >Buy Vowel</b-button
@@ -23,7 +23,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == 0"
+      v-if="gamePhase == phaseEnum.play"
       variant="primary"
       @click="$bvModal.show('guess-answer-modal')"
       >Guess Answer</b-button
@@ -33,7 +33,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == 0"
+      v-if="gamePhase == phaseEnum.play"
       variant="primary"
       @click="skipTurn()"
       >Skip Turn</b-button
@@ -43,14 +43,14 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == -1"
+      v-if="gamePhase == phaseEnum.init"
       variant="primary"
       @click="startGame()"
       >Start Game</b-button
     >
     <b-button
       class="ctrlBtn"
-      v-else-if="gamePhase != 5"
+      v-else-if="gamePhase != phaseEnum.reveal"
       variant="primary"
       @click="$bvModal.show('skip-round-modal')"
       >Skip Level</b-button
@@ -76,7 +76,7 @@
     </b-modal>
 
     <b-modal id="buy-vowel-modal" hide-footer>
-      <template #modal-title> Spend £250 0n a Vowel? </template>
+      <template #modal-title> Spend £{{vowelCost}} 0n a Vowel? </template>
       <b-button class="mt-3" block @click="buyVowel()">Buy Vowel</b-button>
       <b-button class="mt-3" block @click="$bvModal.hide('buy-vowel-modal')"
         >Cancel</b-button
@@ -117,6 +117,12 @@ export default {
     hiddenPuzzleText() {
       return this.$store.getters.hiddenPuzzleText;
     },
+    phaseEnum() {
+      return this.$store.getters.phaseEnum
+    },
+    vowelCost() {
+      return this.$store.getters.vowelCost
+    }
   },
   watch: {
     hiddenPuzzleText: function (value) {
@@ -147,7 +153,7 @@ export default {
       this.$store.dispatch("skipTurn");
     },
     spin() {
-      if (this.gamePhase === 0) {
+      if (this.gamePhase === this.phaseEnum.play) {
         this.$store.dispatch("wheelSpinStart");
       }
     },

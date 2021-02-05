@@ -47,7 +47,7 @@ export default {
             });
         },
         keyPressed(context, { index, keyboardType }) {
-            if (context.getters.gamePhase == 1 || context.getters.gamePhase == 2) {
+            if (context.getters.gamePhase == context.getters.phaseEnum.selectCons || context.getters.gamePhase == context.getters.phaseEnum.selectVowel) {
                 let char = ''
                 if (keyboardType === "cons") {
                     context.state.consKeyboard[index].used = true
