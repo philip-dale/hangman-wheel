@@ -1,8 +1,8 @@
 <template>
   <div class="game-area">
     <div class="board-message">
-      {{puzzleId}}
-      {{currentPuzzleClue}}
+      {{ puzzleId }}
+      {{ currentPuzzleClue }}
     </div>
     <div class="game-board">
       <lettersRow :letters="puzzle[0]" />
@@ -11,8 +11,12 @@
       <lettersRow :letters="puzzle[3]" />
     </div>
     <div class="keyboards">
-      <keyboard :enabled="true" :letters="consKeyboard" keyboardType="cons"/>
-      <keyboard :enabled="vowelEnabled" :letters="vowelKeyboard" keyboardType="vowel"/>
+      <keyboard :enabled="true" :letters="consKeyboard" keyboardType="cons" />
+      <keyboard
+        :enabled="vowelEnabled"
+        :letters="vowelKeyboard"
+        keyboardType="vowel"
+      />
     </div>
   </div>
 </template>
@@ -28,38 +32,38 @@ export default {
     keyboard,
   },
   created() {
-    if(this.$store.state.gamePhase == -1) {
-      let text = "Wheel of Hangman!!"
-      let showAll = true
-      this.$store.commit('setPuzzle', {text, showAll})
-      this.$store.commit("initKeyboards")
+    if (this.$store.getters.gamePhase == -1) {
+      let text = "Wheel of Hangman!!";
+      let showAll = true;
+      this.$store.commit("setPuzzle", { text, showAll });
+      this.$store.dispatch("initKeyboards");
     }
   },
-  computed:{
+  computed: {
     consKeyboard() {
-      return this.$store.state.consKeyboard
+      return this.$store.getters.consKeyboard;
     },
     vowelKeyboard() {
-      return this.$store.state.vowelKeyboard
+      return this.$store.getters.vowelKeyboard;
     },
     puzzle() {
-      return this.$store.state.gameBoard.puzzle
+      return this.$store.getters.puzzle;
     },
     puzzleId() {
-      if(this.$store.state.gamePhase == -1) {
-        return "?-?"
+      if (this.$store.getters.gamePhase == -1) {
+        return "?-?";
       }
-      return this.$store.state.gameBoard.clueIndex.toString() + "-" + this.$store.state.gameBoard.puzzleIndex.toString()
+      return this.$store.getters.puzzleId;
     },
     currentPuzzleClue() {
-      if(this.$store.state.gamePhase == -1) {
-        return "?"
+      if (this.$store.getters.gamePhase == -1) {
+        return "?";
       }
-      return this.$store.getters.currentPuzzleClue
+      return this.$store.getters.currentPuzzleClue;
     },
     vowelEnabled() {
-      return this.$store.state.gameBoard.vowelEnabled
-    }
+      return this.$store.getters.vowelEnabled;
+    },
   },
 };
 </script>

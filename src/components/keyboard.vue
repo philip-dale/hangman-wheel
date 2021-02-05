@@ -1,10 +1,25 @@
 <template>
   <div class="keyboard-row">
-      <template v-for="(l, index) in letters">
-          <div class="keyboardletterClass letterUsed" v-if="!enabled" :key="index">{{l.value}}</div>
-          <div class="keyboardletterClass letterUsed" v-else-if="l.used" :key="index">{{l.value}}</div>
-          <div class="keyboardletterClass" v-else :key="index" @click="clicked(index)">{{l.value}}</div>
-      </template>
+    <template v-for="(l, index) in letters">
+      <div class="keyboardletterClass letterUsed" v-if="!enabled" :key="index">
+        {{ l.value }}
+      </div>
+      <div
+        class="keyboardletterClass letterUsed"
+        v-else-if="l.used"
+        :key="index"
+      >
+        {{ l.value }}
+      </div>
+      <div
+        class="keyboardletterClass"
+        v-else
+        :key="index"
+        @click="clicked(index)"
+      >
+        {{ l.value }}
+      </div>
+    </template>
   </div>
 </template>
 
@@ -16,12 +31,11 @@ export default {
     enabled: Boolean,
     keyboardType: String,
   },
-  methods:{
-      clicked(index) {
-          let keyboardType = this.keyboardType
-          this.$store.dispatch('keyPressed', {index, keyboardType})
-      }
-  }
+  methods: {
+    clicked(index) {
+      this.$store.dispatch("keyPressed", { index:index, keyboardType:this.keyboardType });
+    },
+  },
 };
 </script>
 
@@ -31,7 +45,7 @@ export default {
   flex-direction: row;
 }
 
-.keyboardletterClass{
+.keyboardletterClass {
   width: 4.5%;
   height: 40px;
   border: solid black 1px;
@@ -41,7 +55,7 @@ export default {
   font-weight: bolder;
 }
 
-.letterUsed{
-    color: #acb5b9;
+.letterUsed {
+  color: #acb5b9;
 }
 </style>

@@ -1,37 +1,63 @@
 <template>
   <div>
     <div class="control-message">{{ phaseText }}</div>
-    <b-button class='ctrlBtn' v-if="gamePhase == 0" variant="primary" @click="spin()">spin</b-button>
-    <b-button class='ctrlBtn' v-else variant="primary" :disabled='true'>spin</b-button>
     <b-button
-      class='ctrlBtn'
+      class="ctrlBtn"
+      v-if="gamePhase == 0"
+      variant="primary"
+      @click="spin()"
+      >spin</b-button
+    >
+    <b-button class="ctrlBtn" v-else variant="primary" :disabled="true"
+      >spin</b-button
+    >
+    <b-button
+      class="ctrlBtn"
       v-if="gamePhase == 0 && playerRoundScore >= 250"
       variant="primary"
       @click="$bvModal.show('buy-vowel-modal')"
       >Buy Vowel</b-button
     >
-    <b-button class='ctrlBtn' v-else variant="primary" :disabled="true">Buy Vowel</b-button>
+    <b-button class="ctrlBtn" v-else variant="primary" :disabled="true"
+      >Buy Vowel</b-button
+    >
     <b-button
-      class='ctrlBtn'
+      class="ctrlBtn"
       v-if="gamePhase == 0"
       variant="primary"
       @click="$bvModal.show('guess-answer-modal')"
       >Guess Answer</b-button
     >
-    <b-button class='ctrlBtn' v-else variant="primary" :disabled="true">Guess Answer</b-button>
+    <b-button class="ctrlBtn" v-else variant="primary" :disabled="true"
+      >Guess Answer</b-button
+    >
     <b-button
-      class='ctrlBtn'
+      class="ctrlBtn"
       v-if="gamePhase == 0"
       variant="primary"
       @click="skipTurn()"
       >Skip Turn</b-button
     >
-    <b-button class='ctrlBtn' v-else variant="primary" :disabled="true">Skip Turn</b-button>
-    <b-button class='ctrlBtn' v-if="gamePhase == -1" variant="primary" @click="startGame()"
+    <b-button class="ctrlBtn" v-else variant="primary" :disabled="true"
+      >Skip Turn</b-button
+    >
+    <b-button
+      class="ctrlBtn"
+      v-if="gamePhase == -1"
+      variant="primary"
+      @click="startGame()"
       >Start Game</b-button
     >
-    <b-button class='ctrlBtn' v-else-if="gamePhase != 5" variant="primary" @click="$bvModal.show('skip-round-modal')">Skip Level</b-button>
-    <b-button class='ctrlBtn' v-else variant="primary" @click="nextLevel()">Next Level</b-button>
+    <b-button
+      class="ctrlBtn"
+      v-else-if="gamePhase != 5"
+      variant="primary"
+      @click="$bvModal.show('skip-round-modal')"
+      >Skip Level</b-button
+    >
+    <b-button class="ctrlBtn" v-else variant="primary" @click="nextLevel()"
+      >Next Level</b-button
+    >
 
     <b-modal id="guess-answer-modal" hide-footer>
       <template #modal-title> What is your Guess? </template>
@@ -83,19 +109,19 @@ export default {
       return this.$store.getters.phaseText;
     },
     gamePhase() {
-      return this.$store.state.gamePhase;
+      return this.$store.getters.gamePhase;
     },
     playerRoundScore() {
-      return this.$store.getters.playerRoundScore
+      return this.$store.getters.playerRoundScore;
     },
     hiddenPuzzleText() {
-      return this.$store.getters.hiddenPuzzleText
-    }
+      return this.$store.getters.hiddenPuzzleText;
+    },
   },
   watch: {
     hiddenPuzzleText: function (value) {
-      this.currentGuess = value 
-    }
+      this.currentGuess = value;
+    },
   },
   methods: {
     skipGame() {
@@ -121,10 +147,10 @@ export default {
       this.$store.dispatch("skipTurn");
     },
     spin() {
-      if(this.gamePhase === 0) {
-        this.$store.dispatch('wheelSpinStart')
+      if (this.gamePhase === 0) {
+        this.$store.dispatch("wheelSpinStart");
       }
-    }
+    },
   },
 };
 </script>
