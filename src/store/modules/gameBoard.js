@@ -174,7 +174,7 @@ export default {
                     "Ghostbusters",
                     "La La Land",
                     "Ben-Hur",
-                    "Morris from America",
+                    "American Pie",
                     "Close Encounters Of The Third Kind"]
             },
             {
@@ -294,6 +294,12 @@ export default {
         setPuzzle(state, { text, showAll }) {
             let words = arrangePuzzleText(text, state.puzzleSize)
             state.puzzle = arrayToPuzzle(words, state.puzzleSize, showAll)
+        },
+        setVowelEnabled(state, value) {
+            state.vowelEnabled = value
+        },
+        setLetterHidden(state, {rowIndex,letterIndex,value}) {
+            state.puzzle[rowIndex][letterIndex].hidden = value
         }
     },
     actions: {
@@ -314,11 +320,20 @@ export default {
         }
     },
     getters: {
+        puzzle(state) {
+            return state.puzzle
+        },
+        puzzleId(state) {
+            return state.clueIndex.toString() + "-" + state.puzzleIndex.toString()
+        },
         currentPuzzleText(state) {
             return state.puzzleList[state.clueIndex].puzzles[state.puzzleIndex]
         },
         currentPuzzleClue(state) {
             return state.puzzleList[state.clueIndex].clue
+        },
+        vowelEnabled(state) {
+            return state.vowelEnabled
         },
         hiddenPuzzleText(state) {
             let returnText = ""

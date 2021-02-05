@@ -1,11 +1,10 @@
 <template>
   <div id="app">
-    <!-- <div id="nav"> -->
     <div class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
       <router-link class="router-link" to="/setup">Setup</router-link> |
       <router-link class="router-link" to="/play">Play</router-link>
     </div>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -18,8 +17,7 @@
   color: #2c3e50;
 }
 
-.router-link{
+.router-link {
   color: white;
 }
-
 </style>
