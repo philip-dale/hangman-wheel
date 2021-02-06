@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
     namespaced: false,
     state: () => ({
@@ -79,6 +81,28 @@ export default {
             }
             context.commit('setVowelEnabled', false)
         },
+        setKeyboardDefaultSettings(context) {
+            context.dispatch('initKeyboards')
+        },
+        saveKeyboardSettings(context) {
+            Vue.$cookies.set('KeyboardSettings', { "consKeyboard": context.state.consKeyboard, "vowelKeyboard": context.state.vowelKeyboard}, 'Infinity', null, null, null, 'Strict');
+        },
+        loadKeyboardSettings(context) {
+            let values = Vue.$cookies.get("KeyboardSettings");
+            if (values != undefined) {
+                if (values.consKeyboard != undefined) {
+                    context.state.consKeyboard = values.consKeyboard
+                }
+                if (values.vowelKeyboard != undefined) {
+                    context.state.vowelKeyboard = values.vowelKeyboard
+                }
+            } else {
+                context.dispatch('setKeyboardDefaultSettings')
+            }
+        },
+        clearKeyboardSave() {
+            Vue.$cookies.remove("KeyboardSettings");
+        }
     },
     getters: {
         consKeyboard(state) {

@@ -29,6 +29,16 @@
       ></b-form-input>
     </div>
     <div class="inputDiv">
+      <label class="labelClass">Select Current Player</label>
+      <b-form-spinbutton
+        id="currentPlayer"
+        v-model="currentPlayer"
+        min="0"
+        :max="noPlayers-1"
+        inline
+      ></b-form-spinbutton>
+    </div>
+    <div class="inputDiv">
       <label class="labelClass">Select Number of Players </label>
       <b-form-spinbutton
         id="selectPlayers"
@@ -60,6 +70,26 @@
         type="color"
       ></b-form-input>
     </div>
+    <b-button
+      variant="primary"
+      @click="startNewGame()"
+      >Start New Game</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="resetSettings()"
+      >Reset Settings</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="saveSettings()"
+      >Save Settings</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="deleteSaveSettings()"
+      >Delete Save Settings</b-button
+    >
   </div>
 </template>
 
@@ -105,7 +135,29 @@ export default {
         this.$store.commit("vowelCost", newValue);
       },
     },
+    currentPlayer: {
+      get: function () {
+        return this.$store.getters.currentPlayer;
+      },
+      set: function (newValue) {
+        this.$store.commit("currentPlayer", newValue);
+      }
+    }
   },
+  methods:{
+    saveSettings() {
+      this.$store.dispatch("saveSettings")
+    },
+    resetSettings() {
+      this.$store.dispatch("setDefaultSettings")
+    },
+    deleteSaveSettings() {
+      this.$store.dispatch("clearSave")
+    },
+    startNewGame() {
+      this.$store.dispatch("startNewGame")
+    }
+  }
 };
 </script>
 <style scoped>

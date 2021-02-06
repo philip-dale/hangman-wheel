@@ -32,12 +32,12 @@ export default {
     keyboard,
   },
   created() {
-    if (this.$store.getters.gamePhase == this.phaseEnum.init) {
-      let text = "Wheel of Hangman!!";
-      let showAll = true;
-      this.$store.commit("setPuzzle", { text, showAll });
-      this.$store.dispatch("initKeyboards");
-    }
+    // if (this.$store.getters.gamePhase == this.phaseEnum.init) {
+    //   let text = "Wheel of Hangman!!";
+    //   let showAll = true;
+    //   this.$store.commit("setPuzzle", { text, showAll });
+    //   this.$store.dispatch("initKeyboards");
+    // }
   },
   computed: {
     consKeyboard() {

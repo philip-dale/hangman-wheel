@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 function arrangePuzzleText(text, puzzleSize) {
     const words = text.split(" ");
     if (words.length <= puzzleSize.length) {
@@ -319,6 +321,43 @@ export default {
                     letter.hidden = false
                 });
             });
+        },
+        setBoardDefaultSettings(context) {
+            context.state.puzzleSize = [
+                { padding: 1, chars: 12 },
+                { padding: 0, chars: 14 },
+                { padding: 0, chars: 14 },
+                { padding: 1, chars: 12 },
+            ],
+            context.state.clueIndex = 0
+            context.state.currentPlayer = 0
+            context.state.puzzle = [];
+            context.commit("setPuzzle", { 'text':"Wheel of Hangman!!", 'showAll':true });
+        },
+        saveBoardSettings(context) {
+            Vue.$cookies.set('boardSettings', { "puzzleSize": context.state.puzzleSize, "clueIndex": context.state.clueIndex, "puzzleIndex": context.state.puzzleIndex, "puzzle": context.state.puzzle }, 'Infinity', null, null, null, 'Strict');
+        },
+        loadBoardSettings(context) {
+            let values = Vue.$cookies.get("boardSettings");
+            if (values != undefined) {
+                if (values.puzzleSize != undefined) {
+                    context.state.puzzleSize = values.puzzleSize
+                }
+                if (values.clueIndex != undefined) {
+                    context.state.clueIndex = values.clueIndex
+                }
+                if (values.puzzleIndex != undefined) {
+                    context.state.puzzleIndex = values.puzzleIndex
+                }
+                if (values.puzzle != undefined) {
+                    context.state.puzzle = values.puzzle
+                }
+            } else {
+                context.dispatch('setBoardDefaultSettings')
+            }
+        },
+        clearBoardSave() {
+            Vue.$cookies.remove("boardSettings");
         }
     },
     getters: {

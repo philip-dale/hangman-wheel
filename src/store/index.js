@@ -25,7 +25,7 @@ export default new Vuex.Store({
     phaseText(state) {
       if (state.gamePhase == state.phaseEnum.init) {
         return "Welcome to Wheel Of Fortune"
-      } else if (state.gamePhase == state.phaseEnum.play) {
+      } else if (state.gamePhase == state.phaseEnum.play || state.gamePhase == state.phaseEnum.firstGo) {
         return "Spin The Wheel / Buy a Vowel (£" + state.vowelCost.toString() + ") / Guess"
       } else if (state.gamePhase == state.phaseEnum.selectCons) {
         return "Select a Consonant"
@@ -39,7 +39,7 @@ export default new Vuex.Store({
         return "Level Over"
       } else if (state.gamePhase == state.phaseEnum.freeVowels) {
         return "Select a Free Vowel"
-      }
+      } 
     },
     pointsForWin(state){
       return state.pointsForWin
@@ -128,6 +128,7 @@ export default new Vuex.Store({
         context.state.showWinAlert = false
         context.state.showNotFoundAlert = false
       }
+      context.dispatch('saveSettings')
     },
     guessAnswer(context, guess) {
       if (context.getters.currentPuzzleText.toLowerCase() === guess.toLowerCase()) {
@@ -143,6 +144,63 @@ export default new Vuex.Store({
     },
     skipTurn(context) {
       context.dispatch('setPhase', 'skipTurn')
+    },
+    setDefaultSettings(context) {
+      context.state.pointsForWin = 1000
+      context.state.vowelCost = 250
+      context.state.gamePhase = -1
+      context.dispatch('setPlayerDefaultSettings')
+      context.dispatch('setWheelDefaultSettings')
+      context.dispatch('setKeyboardDefaultSettings')
+      context.dispatch('setBoardDefaultSettings')
+    },
+    saveSettings(context) {
+      Vue.$cookies.set('gameSettings',{"pointsForWin":context.state.pointsForWin, "vowelCost":context.state.vowelCost, "gamePhase":context.state.gamePhase}, 'Infinity', null, null, null, 'Strict');
+      context.dispatch('savePlayerSettings')
+      context.dispatch('saveWheelSettings')
+      context.dispatch('saveKeyboardSettings')
+      context.dispatch('saveBoardSettings')
+    },
+    loadSettings(context) {
+      let values = Vue.$cookies.get("gameSettings");
+      if(values != undefined) {
+        if(values.pointsForWin != undefined) {
+          context.state.pointsForWin = values.pointsForWin
+        }
+        if(values.vowelCost != undefined) {
+          context.state.vowelCost = values.vowelCost
+        }
+        if(values.gamePhase != undefined) {
+          context.state.gamePhase = values.gamePhase
+        }
+      } else {
+        context.state.pointsForWin = 1000
+        context.state.vowelCost = 250
+        context.state.gamePhase = -1
+      }
+      context.dispatch('loadPlayerSettings')
+      context.dispatch('loadWheelSettings')
+      context.dispatch('loadKeyboardSettings')
+      context.dispatch('loadBoardSettings')
+    },
+    clearSave(context) {
+      Vue.$cookies.remove("gameSettings");
+      context.dispatch('clearPlayerSave')
+      context.dispatch('clearWheelSave')
+      context.dispatch('clearKeyboardSave')
+      context.dispatch('clearBoardSave')
+    },
+    startNewGame(context) {
+      context.state.gamePhase = -1,
+      context.state.showBankruptAlert = false,
+      context.state.showLoseTurnAlert = false,
+      context.state.showWheelValue = false,
+      context.state.showWinAlert = false,
+      context.state.showNotFoundAlert = false,
+      context.commit("setPuzzle", { 'text':"Wheel of Hangman!!", 'showAll':true });
+      context.dispatch("clearAllScores")
+      context.dispatch('initKeyboards')
+      context.commit('currentPlayer', 0)
     }
   },
   modules: {
