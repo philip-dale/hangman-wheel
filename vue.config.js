@@ -1,3 +1,3 @@
 module.exports = {
-    publicPath: '/hw/'
+    publicPath: '/project name/'
 }
