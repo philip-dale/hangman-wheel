@@ -74,7 +74,7 @@ export default new Vuex.Store({
         context.state.showWheelValue = false
         context.state.showNotFoundAlert = true
         context.dispatch('nextPlayer')
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'buyVowel') {
         context.state.gamePhase = context.state.phaseEnum.selectVowel
       } else if (action === 'guess') {
@@ -82,18 +82,18 @@ export default new Vuex.Store({
       } else if (action === 'missTurn') {
         context.state.showLoseTurnAlert = true
         context.dispatch('nextPlayer');
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'skipTurn') {
         context.dispatch('nextPlayer');
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'bankrupt') {
         context.state.showBankruptAlert = true
         context.dispatch('currentPlayerClearRoundScore')
         context.dispatch('nextPlayer');
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'guessFail') {
         context.dispatch('nextPlayer');
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'guessCorrect') {
         context.state.showWinAlert = true
         context.dispatch('currentPlayerAddRoundScore', context.state.pointsForWin)
@@ -108,12 +108,12 @@ export default new Vuex.Store({
         context.dispatch('nextPuzzle')
         context.dispatch('initKeyboards')
         context.state.showWinAlert = false
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'startGame') {
         context.dispatch('clearAllScores')
         context.dispatch('nextPuzzle')
         context.dispatch('initKeyboards')
-        context.state.gamePhase = context.state.phaseEnum.play
+        context.state.gamePhase = context.state.phaseEnum.firstGo
       } else if (action === 'spinning') {
         context.state.gamePhase = context.state.phaseEnum.spinning
         context.state.showBankruptAlert = false

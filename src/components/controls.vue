@@ -3,7 +3,7 @@
     <div class="control-message">{{ phaseText }}</div>
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == phaseEnum.play"
+      v-if="gamePhase == phaseEnum.play || gamePhase == phaseEnum.firstGo"
       variant="primary"
       @click="spin()"
       >Spin</b-button
@@ -13,7 +13,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == phaseEnum.play && playerRoundScore >= vowelCost"
+      v-if="(gamePhase == phaseEnum.play || gamePhase == phaseEnum.firstGo) && playerRoundScore >= vowelCost"
       variant="primary"
       @click="$bvModal.show('buy-vowel-modal')"
       >Buy Vowel</b-button
@@ -23,7 +23,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="gamePhase == phaseEnum.play"
+      v-if="gamePhase == phaseEnum.play || gamePhase == phaseEnum.firstGo"
       variant="primary"
       @click="$bvModal.show('guess-answer-modal')"
       >Guess Answer</b-button
@@ -153,9 +153,7 @@ export default {
       this.$store.dispatch("skipTurn");
     },
     spin() {
-      if (this.gamePhase === this.phaseEnum.play) {
-        this.$store.dispatch("wheelSpinStart");
-      }
+      this.$store.dispatch("wheelSpinStart");
     },
   },
 };
