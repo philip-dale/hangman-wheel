@@ -13,7 +13,7 @@
     >
     <b-button
       class="ctrlBtn"
-      v-if="(gamePhase == phaseEnum.play || gamePhase == phaseEnum.firstGo) && playerRoundScore >= vowelCost"
+      v-if="((gamePhase == phaseEnum.play || gamePhase == phaseEnum.firstGo) && playerRoundScore >= vowelCost) && consRemaining"
       variant="primary"
       @click="$bvModal.show('buy-vowel-modal')"
       >Buy Vowel</b-button
@@ -122,6 +122,9 @@ export default {
     },
     vowelCost() {
       return this.$store.getters.vowelCost
+    },
+    consRemaining() {
+      return this.$store.getters.consRemaining
     }
   },
   watch: {

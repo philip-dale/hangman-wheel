@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    phaseEnum:{"init": -1, "firstGo":0, "play":1, "selectCons":2, "selectVowel":3, "guess":4, "spinning":5, "reveal":6},
+    phaseEnum:{"init": -1, "firstGo":0, "play":1, "selectCons":2, "selectVowel":3, "guess":4, "spinning":5, "reveal":6, "freeVowels":7},
     gamePhase: -1,
     showBankruptAlert: false,
     showLoseTurnAlert: false,
@@ -37,6 +37,8 @@ export default new Vuex.Store({
         return "Spinning"
       } else if (state.gamePhase == state.phaseEnum.reveal) {
         return "Level Over"
+      } else if (state.gamePhase == state.phaseEnum.freeVowels) {
+        return "Select a Free Vowel"
       }
     },
     pointsForWin(state){
@@ -65,7 +67,12 @@ export default new Vuex.Store({
         context.state.showWinAlert = false
         context.state.showNotFoundAlert = false
         context.state.showWheelValue = true
-        context.state.gamePhase = context.state.phaseEnum.selectCons
+        if(context.getters.consRemaining) {
+          context.state.gamePhase = context.state.phaseEnum.selectCons
+        } else {
+          context.state.gamePhase = context.state.phaseEnum.freeVowels
+          context.commit('setVowelEnabled', true)
+        }
       } else if (action === 'charFound') {
         context.state.gamePhase = context.state.phaseEnum.play
         context.state.showWheelValue = false
