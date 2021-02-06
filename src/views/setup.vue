@@ -71,21 +71,25 @@
       ></b-form-input>
     </div>
     <b-button
+      class="settingButton"
       variant="primary"
       @click="startNewGame()"
       >Start New Game</b-button
     >
     <b-button
+      class="settingButton"
       variant="primary"
       @click="resetSettings()"
       >Reset Settings</b-button
     >
     <b-button
+      class="settingButton"
       variant="primary"
       @click="saveSettings()"
       >Save Settings</b-button
     >
     <b-button
+      class="settingButton"
       variant="primary"
       @click="deleteSaveSettings()"
       >Delete Save Settings</b-button
@@ -165,6 +169,7 @@ export default {
   align-items: left;
 }
 
+.settingButton,
 .labelClass {
   margin: 5px;
 }
@@ -192,4 +197,5 @@ export default {
 .spacer {
   height: 50px;
 }
+
 </style>
