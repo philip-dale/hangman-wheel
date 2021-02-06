@@ -8,6 +8,14 @@
   </div>
 </template>
 
+<script>
+export default {
+  beforeMount() {
+    this.$store.dispatch('loadSettings')
+  }
+}
+</script>
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

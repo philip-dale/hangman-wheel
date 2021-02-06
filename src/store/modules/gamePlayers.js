@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
     namespaced: false,
     state: () => ({
@@ -27,7 +29,10 @@ export default {
                     state.players.pop()
                 }
             }
-        }
+        },
+        currentPlayer(state, value) {
+            state.currentPlayer = value
+        },
     },
     actions: {
         nextPlayer(context) {
@@ -65,8 +70,40 @@ export default {
         },
         spendRoundPoints(context, cost) {
             context.state.players[context.state.currentPlayer].roundScore -= cost
+        },
+        setPlayerDefaultSettings(context) {
+            context.state.players = [
+                { name: 'Player 0', roundScore: 0, score: 0, colour: "#ff0000" },
+                { name: 'Player 1', roundScore: 0, score: 0, colour: "#40ff00" },
+                { name: 'Player 2', roundScore: 0, score: 0, colour: "#0040ff" },
+            ]
+            context.state.keepAllScores = false
+            context.state.currentPlayer = 0
+        },
+        savePlayerSettings(context) {
+            Vue.$cookies.set('playerSettings', { "keepAllScores": context.state.keepAllScores, "players": context.state.players, "currentPlayer": context.state.currentPlayer }, 'Infinity', null, null, null, 'Strict');
+        },
+        loadPlayerSettings(context) {
+            let values = Vue.$cookies.get("playerSettings");
+            if (values != undefined) {
+                if (values.keepAllScores != undefined) {
+                    context.state.keepAllScores = values.keepAllScores
+                }
+                if (values.players != undefined) {
+                    context.state.players = values.players
+                }
+                if (values.currentPlayer != undefined) {
+                    context.state.currentPlayer = values.currentPlayer
+                }
+            } else {
+                context.dispatch('setWheelDefaultSettings')
+            }
+        },
+        clearPlayerSave() {
+            Vue.$cookies.remove("setPlayerDefaultSettings");
         }
     },
+
     getters: {
         noPlayers(state) {
             return state.players.length

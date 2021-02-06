@@ -32,12 +32,12 @@ export default {
     keyboard,
   },
   created() {
-    if (this.$store.getters.gamePhase == -1) {
-      let text = "Wheel of Hangman!!";
-      let showAll = true;
-      this.$store.commit("setPuzzle", { text, showAll });
-      this.$store.dispatch("initKeyboards");
-    }
+    // if (this.$store.getters.gamePhase == this.phaseEnum.init) {
+    //   let text = "Wheel of Hangman!!";
+    //   let showAll = true;
+    //   this.$store.commit("setPuzzle", { text, showAll });
+    //   this.$store.dispatch("initKeyboards");
+    // }
   },
   computed: {
     consKeyboard() {
@@ -50,13 +50,13 @@ export default {
       return this.$store.getters.puzzle;
     },
     puzzleId() {
-      if (this.$store.getters.gamePhase == -1) {
+      if (this.$store.getters.gamePhase == this.phaseEnum.init) {
         return "?-?";
       }
       return this.$store.getters.puzzleId;
     },
     currentPuzzleClue() {
-      if (this.$store.getters.gamePhase == -1) {
+      if (this.$store.getters.gamePhase == this.phaseEnum.init) {
         return "?";
       }
       return this.$store.getters.currentPuzzleClue;
@@ -64,6 +64,9 @@ export default {
     vowelEnabled() {
       return this.$store.getters.vowelEnabled;
     },
+    phaseEnum() {
+      return this.$store.getters.phaseEnum
+    }
   },
 };
 </script>

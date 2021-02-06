@@ -1,3 +1,5 @@
+import Vue from 'vue'
+
 export default {
     namespaced: false,
     state: () => ({
@@ -39,15 +41,17 @@ export default {
         initKeyboards(context) {
             context.state.consKeyboard = []
             context.state.consKeyboardDefaut.forEach(key => {
-                context.state.consKeyboard.push({ value: key.value, used: false })
+                context.state.consKeyboard.push({ value: key.value, used: key.used })
             });
             context.state.vowelKeyboard = []
             context.state.vowelKeyboardDefaut.forEach(key => {
-                context.state.vowelKeyboard.push({ value: key.value, used: false })
+                context.state.vowelKeyboard.push({ value: key.value, used: key.used })
             });
         },
         keyPressed(context, { index, keyboardType }) {
-            if (context.getters.gamePhase == 1 || context.getters.gamePhase == 2) {
+            if (context.getters.gamePhase == context.getters.phaseEnum.selectCons || 
+                context.getters.gamePhase == context.getters.phaseEnum.selectVowel || 
+                context.getters.gamePhase == context.getters.phaseEnum.freeVowels) {
                 let char = ''
                 if (keyboardType === "cons") {
                     context.state.consKeyboard[index].used = true
@@ -66,7 +70,7 @@ export default {
                     });
                 });
                 if (foundLeters > 0) {
-                    if (keyboardType === "cons") {
+                    if (keyboardType === "cons" || context.getters.gamePhase == context.getters.phaseEnum.freeVowels) {
                         let score = foundLeters * context.getters.wheelValue
                         context.dispatch('currentPlayerAddRoundScore', score)
                     }
@@ -77,10 +81,41 @@ export default {
             }
             context.commit('setVowelEnabled', false)
         },
+        setKeyboardDefaultSettings(context) {
+            context.dispatch('initKeyboards')
+        },
+        saveKeyboardSettings(context) {
+            Vue.$cookies.set('KeyboardSettings', { "consKeyboard": context.state.consKeyboard, "vowelKeyboard": context.state.vowelKeyboard}, 'Infinity', null, null, null, 'Strict');
+        },
+        loadKeyboardSettings(context) {
+            let values = Vue.$cookies.get("KeyboardSettings");
+            if (values != undefined) {
+                if (values.consKeyboard != undefined) {
+                    context.state.consKeyboard = values.consKeyboard
+                }
+                if (values.vowelKeyboard != undefined) {
+                    context.state.vowelKeyboard = values.vowelKeyboard
+                }
+            } else {
+                context.dispatch('setKeyboardDefaultSettings')
+            }
+        },
+        clearKeyboardSave() {
+            Vue.$cookies.remove("KeyboardSettings");
+        }
     },
     getters: {
         consKeyboard(state) {
             return state.consKeyboard
+        },
+        consRemaining(state) {
+            let consRemaining = false
+            state.consKeyboard.forEach(key => {
+                if (key.used == false) {
+                    consRemaining = true
+                }
+            });
+            return consRemaining
         },
         vowelKeyboard(state) {
             return state.vowelKeyboard

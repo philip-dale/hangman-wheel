@@ -1,17 +1,53 @@
 <template>
   <div class="setup">
     <div class="spacer"></div>
-    <label class="labelClass">Select Number of Players </label>
-    <b-form-checkbox v-model="keepAllScores" name="check-button" switch>
-      Keep All Scores <b>({{ keepAllScores }})</b>
-    </b-form-checkbox>
-    <b-form-spinbutton
-      id="selectPlayers"
-      v-model="noPlayers"
-      min="1"
-      :max="maxPlayers"
-      inline
-    ></b-form-spinbutton>
+    <div class="inputDiv">
+      <label class="labelClass">Keep All Scores</label>
+      <b-form-checkbox
+        v-model="keepAllScores"
+        name="check-button"
+        size="lg"
+        switch
+      ></b-form-checkbox>
+    </div>
+    <div class="inputDiv">
+      <label class="labelClass">Set Win Bonus</label>
+      <b-form-input
+        class="inputBox"
+        v-model="pointsForWin"
+        placeholder="Enter Bonus points"
+        type="number"
+      ></b-form-input>
+    </div>
+    <div class="inputDiv">
+      <label class="labelClass">Set Vowel Cost</label>
+      <b-form-input
+        class="inputBox"
+        v-model="vowelCost"
+        placeholder="Enter Vowel Cost"
+        type="number"
+      ></b-form-input>
+    </div>
+    <div class="inputDiv">
+      <label class="labelClass">Select Current Player</label>
+      <b-form-spinbutton
+        id="currentPlayer"
+        v-model="currentPlayer"
+        min="0"
+        :max="noPlayers-1"
+        inline
+      ></b-form-spinbutton>
+    </div>
+    <div class="inputDiv">
+      <label class="labelClass">Select Number of Players </label>
+      <b-form-spinbutton
+        id="selectPlayers"
+        v-model="noPlayers"
+        min="1"
+        :max="maxPlayers"
+        inline
+      ></b-form-spinbutton>
+    </div>
     <div class="setPlayerInfo" v-for="(p, index) in players" :key="index">
       <label class="labelClass">Set Player Name</label>
       <b-form-input
@@ -34,6 +70,26 @@
         type="color"
       ></b-form-input>
     </div>
+    <b-button
+      variant="primary"
+      @click="startNewGame()"
+      >Start New Game</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="resetSettings()"
+      >Reset Settings</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="saveSettings()"
+      >Save Settings</b-button
+    >
+    <b-button
+      variant="primary"
+      @click="deleteSaveSettings()"
+      >Delete Save Settings</b-button
+    >
   </div>
 </template>
 
@@ -63,12 +119,61 @@ export default {
     maxPlayers() {
       return this.$store.getters.maxPlayers;
     },
+    pointsForWin: {
+      get: function () {
+        return this.$store.getters.pointsForWin;
+      },
+      set: function (newValue) {
+        this.$store.commit("pointsForWin", newValue);
+      },
+    },
+    vowelCost: {
+      get: function () {
+        return this.$store.getters.vowelCost;
+      },
+      set: function (newValue) {
+        this.$store.commit("vowelCost", newValue);
+      },
+    },
+    currentPlayer: {
+      get: function () {
+        return this.$store.getters.currentPlayer;
+      },
+      set: function (newValue) {
+        this.$store.commit("currentPlayer", newValue);
+      }
+    }
   },
+  methods:{
+    saveSettings() {
+      this.$store.dispatch("saveSettings")
+    },
+    resetSettings() {
+      this.$store.dispatch("setDefaultSettings")
+    },
+    deleteSaveSettings() {
+      this.$store.dispatch("clearSave")
+    },
+    startNewGame() {
+      this.$store.dispatch("startNewGame")
+    }
+  }
 };
 </script>
 <style scoped>
+.setup {
+  align-items: left;
+}
+
 .labelClass {
   margin: 5px;
+}
+
+.inputDiv {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  margin: 0;
 }
 
 .setPlayerInfo {
@@ -77,6 +182,7 @@ export default {
   text-align: center;
 }
 
+.inputBox,
 .playerName,
 .playerScore {
   margin: 5px;
