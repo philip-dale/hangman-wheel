@@ -128,7 +128,7 @@ export default {
         return this.$store.getters.pointsForWin;
       },
       set: function (newValue) {
-        this.$store.commit("pointsForWin", newValue);
+        this.$store.commit("pointsForWin", parseInt(newValue));
       },
     },
     vowelCost: {
