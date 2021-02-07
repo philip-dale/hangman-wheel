@@ -6,17 +6,21 @@ import gamePlayers from "./modules/gamePlayers"
 import gameKeyboards from "./modules/gameKeyboards"
 Vue.use(Vuex)
 
+const defaultPointsForWin = 1000
+const defaultVowelCost = 250
+const defaultGamePhase = -1
+
 export default new Vuex.Store({
   state: {
     phaseEnum:{"init": -1, "firstGo":0, "play":1, "selectCons":2, "selectVowel":3, "guess":4, "spinning":5, "reveal":6, "freeVowels":7},
-    gamePhase: -1,
+    gamePhase: defaultGamePhase,
     showBankruptAlert: false,
     showLoseTurnAlert: false,
     showWheelValue: false,
     showWinAlert: false,
     showNotFoundAlert: false,
-    pointsForWin: 1000,
-    vowelCost: 250,
+    pointsForWin: defaultPointsForWin,
+    vowelCost: defaultVowelCost,
   },
   getters: {
     gamePhase(state) {
@@ -146,9 +150,9 @@ export default new Vuex.Store({
       context.dispatch('setPhase', 'skipTurn')
     },
     setDefaultSettings(context) {
-      context.state.pointsForWin = 1000
-      context.state.vowelCost = 250
-      context.state.gamePhase = -1
+      context.state.pointsForWin = defaultPointsForWin
+      context.state.vowelCost = defaultVowelCost
+      context.state.gamePhase = defaultGamePhase
       context.dispatch('setPlayerDefaultSettings')
       context.dispatch('setWheelDefaultSettings')
       context.dispatch('setKeyboardDefaultSettings')
@@ -162,6 +166,9 @@ export default new Vuex.Store({
       context.dispatch('saveBoardSettings')
     },
     loadSettings(context) {
+      context.state.pointsForWin = defaultPointsForWin
+      context.state.vowelCost = defaultVowelCost
+      context.state.gamePhase = defaultGamePhase
       let values = Vue.$cookies.get("gameSettings");
       if(values != undefined) {
         if(values.pointsForWin != undefined) {
@@ -173,10 +180,6 @@ export default new Vuex.Store({
         if(values.gamePhase != undefined) {
           context.state.gamePhase = values.gamePhase
         }
-      } else {
-        context.state.pointsForWin = 1000
-        context.state.vowelCost = 250
-        context.state.gamePhase = -1
       }
       context.dispatch('loadPlayerSettings')
       context.dispatch('loadWheelSettings')
@@ -191,7 +194,7 @@ export default new Vuex.Store({
       context.dispatch('clearBoardSave')
     },
     startNewGame(context) {
-      context.state.gamePhase = -1,
+      context.state.gamePhase = defaultGamePhase,
       context.state.showBankruptAlert = false,
       context.state.showLoseTurnAlert = false,
       context.state.showWheelValue = false,

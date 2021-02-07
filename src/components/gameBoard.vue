@@ -31,14 +31,6 @@ export default {
     lettersRow,
     keyboard,
   },
-  created() {
-    // if (this.$store.getters.gamePhase == this.phaseEnum.init) {
-    //   let text = "Wheel of Hangman!!";
-    //   let showAll = true;
-    //   this.$store.commit("setPuzzle", { text, showAll });
-    //   this.$store.dispatch("initKeyboards");
-    // }
-  },
   computed: {
     consKeyboard() {
       return this.$store.getters.consKeyboard;

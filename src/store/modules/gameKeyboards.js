@@ -1,50 +1,52 @@
 import Vue from 'vue'
 
+const defautConsKeyboard = [
+    { value: 'B', used: false },
+    { value: 'C', used: false },
+    { value: 'D', used: false },
+    { value: 'F', used: false },
+    { value: 'G', used: false },
+    { value: 'H', used: false },
+    { value: 'J', used: false },
+    { value: 'K', used: false },
+    { value: 'L', used: false },
+    { value: 'M', used: false },
+    { value: 'N', used: false },
+    { value: 'P', used: false },
+    { value: 'Q', used: false },
+    { value: 'R', used: false },
+    { value: 'S', used: false },
+    { value: 'T', used: false },
+    { value: 'V', used: false },
+    { value: 'W', used: false },
+    { value: 'X', used: false },
+    { value: 'Y', used: false },
+    { value: 'Z', used: false },
+]
+
+const defautVowelKeyboard = [
+    { value: 'A', used: false },
+    { value: 'E', used: false },
+    { value: 'I', used: false },
+    { value: 'O', used: false },
+    { value: 'U', used: false },
+]
+
 export default {
     namespaced: false,
     state: () => ({
-        consKeyboardDefaut: [
-            { value: 'B', used: false },
-            { value: 'C', used: false },
-            { value: 'D', used: false },
-            { value: 'F', used: false },
-            { value: 'G', used: false },
-            { value: 'H', used: false },
-            { value: 'J', used: false },
-            { value: 'K', used: false },
-            { value: 'L', used: false },
-            { value: 'M', used: false },
-            { value: 'N', used: false },
-            { value: 'P', used: false },
-            { value: 'Q', used: false },
-            { value: 'R', used: false },
-            { value: 'S', used: false },
-            { value: 'T', used: false },
-            { value: 'V', used: false },
-            { value: 'W', used: false },
-            { value: 'X', used: false },
-            { value: 'Y', used: false },
-            { value: 'Z', used: false },
-        ],
         consKeyboard: [],
-        vowelKeyboardDefaut: [
-            { value: 'A', used: false },
-            { value: 'E', used: false },
-            { value: 'I', used: false },
-            { value: 'O', used: false },
-            { value: 'U', used: false },
-        ],
         vowelKeyboard: [],
     }),
     mutations: {},
     actions: {
         initKeyboards(context) {
             context.state.consKeyboard = []
-            context.state.consKeyboardDefaut.forEach(key => {
+            defautConsKeyboard.forEach(key => {
                 context.state.consKeyboard.push({ value: key.value, used: key.used })
             });
             context.state.vowelKeyboard = []
-            context.state.vowelKeyboardDefaut.forEach(key => {
+            defautVowelKeyboard.forEach(key => {
                 context.state.vowelKeyboard.push({ value: key.value, used: key.used })
             });
         },
@@ -88,6 +90,7 @@ export default {
             Vue.$cookies.set('KeyboardSettings', { "consKeyboard": context.state.consKeyboard, "vowelKeyboard": context.state.vowelKeyboard}, 'Infinity', null, null, null, 'Strict');
         },
         loadKeyboardSettings(context) {
+            context.dispatch('setKeyboardDefaultSettings')
             let values = Vue.$cookies.get("KeyboardSettings");
             if (values != undefined) {
                 if (values.consKeyboard != undefined) {
@@ -96,8 +99,6 @@ export default {
                 if (values.vowelKeyboard != undefined) {
                     context.state.vowelKeyboard = values.vowelKeyboard
                 }
-            } else {
-                context.dispatch('setKeyboardDefaultSettings')
             }
         },
         clearKeyboardSave() {
