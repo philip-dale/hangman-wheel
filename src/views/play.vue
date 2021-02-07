@@ -5,7 +5,7 @@
         <div class="gameDiv">
           <gameBoard></gameBoard>
         </div>
-        <div class="wheelDiv">
+        <div class="wheelDiv" :style="'z-index: -1;'">
           <wheel></wheel>
         </div>
       </div>

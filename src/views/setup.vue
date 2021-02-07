@@ -56,13 +56,13 @@
         placeholder="Enter Player Name"
         type="text"
       ></b-form-input>
-      <label class="labelClass">Set Player Score</label>
+      <!-- <label class="labelClass">Set Player Score</label>
       <b-form-input
         class="playerScore"
         v-model="p.score"
         placeholder="Update Score"
         type="number"
-      ></b-form-input>
+      ></b-form-input> -->
       <label class="labelClass">Set Player Colour</label>
       <b-form-input
         class="playerScore"
