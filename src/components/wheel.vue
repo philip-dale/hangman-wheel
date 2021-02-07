@@ -99,6 +99,8 @@ export default {
 .wheel-area {
   width: 100%;
   height: 100%;
+  min-width: 45em;
+  min-height: 46em;
   align-items: center;
 }
 
@@ -148,5 +150,6 @@ export default {
 
 .pointerContainer {
   min-width: 45em;
+  min-height: 1em;
 }
 </style>

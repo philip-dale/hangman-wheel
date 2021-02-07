@@ -92,6 +92,8 @@ export default {
 .game-elements {
   width: 70%;
   height: 100%;
+  min-width: 45em;
+  min-height: 45em;
   display: inline-block;
   flex-direction: column;
 }
@@ -99,6 +101,8 @@ export default {
 .player-elements {
   width: 30%;
   height: 100%;
+  min-width: 25em;
+  min-height: 45em;
   display: inline-block;
   flex-direction: column;
 }
