@@ -48,28 +48,17 @@
         inline
       ></b-form-spinbutton>
     </div>
-    <div class="setPlayerInfo" v-for="(p, index) in players" :key="index">
-      <label class="labelClass">Set Player Name</label>
-      <b-form-input
-        class="playerName"
-        v-model="p.name"
-        placeholder="Enter Player Name"
-        type="text"
-      ></b-form-input>
-      <!-- <label class="labelClass">Set Player Score</label>
-      <b-form-input
-        class="playerScore"
-        v-model="p.score"
-        placeholder="Update Score"
-        type="number"
-      ></b-form-input> -->
-      <label class="labelClass">Set Player Colour</label>
-      <b-form-input
-        class="playerScore"
-        v-model="p.colour"
-        type="color"
-      ></b-form-input>
+    <playerItemEdit v-for="n in noPlayers" :key='n+1000' :itemIndex='n-1'></playerItemEdit>
+    <div class="inputDiv">
+      <label class="labelClass">Select Number Wheel Items </label>
+      <b-form-spinbutton
+        v-model="noWheelItems"
+        min="1"
+        inline
+      ></b-form-spinbutton>
     </div>
+    <div>Set value of -1 for LOSE A TURN, -2 for BANKRUPT</div>
+    <wheelItemEdit v-for="n in noWheelItems" :key='n' :itemIndex='n-1'></wheelItemEdit>
     <b-button
       class="settingButton"
       variant="primary"
@@ -98,12 +87,16 @@
 </template>
 
 <script>
+import wheelItemEdit from '../components/wheelItemEdit.vue';
+import playerItemEdit from '../components/playerItemEdit.vue';
+
 export default {
   name: "Setup",
+  components: {
+    wheelItemEdit,
+    playerItemEdit
+  },
   computed: {
-    players() {
-      return this.$store.getters.players;
-    },
     keepAllScores: {
       get: function () {
         return this.$store.getters.keepAllScores;
@@ -146,7 +139,15 @@ export default {
       set: function (newValue) {
         this.$store.commit("currentPlayer", newValue);
       }
-    }
+    },
+    noWheelItems: {
+      get: function () {
+        return this.$store.getters.noWheelItems;
+      },
+      set: function (newValue) {
+        this.$store.commit("noWheelItems", parseInt(newValue));
+      },
+    },
   },
   methods:{
     saveSettings() {
@@ -181,15 +182,7 @@ export default {
   margin: 0;
 }
 
-.setPlayerInfo {
-  display: flex;
-  flex-direction: row;
-  text-align: center;
-}
-
-.inputBox,
-.playerName,
-.playerScore {
+.inputBox {
   margin: 5px;
   width: 25%;
 }

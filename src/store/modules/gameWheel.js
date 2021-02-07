@@ -39,6 +39,30 @@ export default {
         setWheelIndex(state, n) {
             state.currentWheelIndex = n
         },
+        noWheelItems(state, n) {
+            while (n != state.wheelSetup.length) {
+                if (n > state.wheelSetup.length) {
+                    state.wheelSetup.push({val: 0, text: '£0', colour: '#FF1A66'})
+                } else if (n < state.wheelSetup.length) {
+                    state.wheelSetup.pop()
+                }
+            }
+        },
+        wheelVal(state, {index, value}) {
+            if(value >= -2) {
+                state.wheelSetup[index].val = value
+                if(value >= 0) {
+                    state.wheelSetup[index].text = '£' + value.toString()
+                } else if (value == -1) {
+                    state.wheelSetup[index].text = "LOSE A TURN"
+                } else if (value == -2) {
+                    state.wheelSetup[index].text = "BANKRUPT"
+                }
+            }
+        },
+        wheelColour(state, {index, value}) {
+            state.wheelSetup[index].colour = value
+        }
     },
     actions: {
         wheelSpinStart(context) {
@@ -94,6 +118,9 @@ export default {
         },
         wheelSetup(state) {
             return state.wheelSetup
+        },
+        noWheelItems(state) {
+            return state.wheelSetup.length
         },
         currentWheelIndex(state) {
             return state.currentWheelIndex

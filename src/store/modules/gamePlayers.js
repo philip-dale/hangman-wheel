@@ -37,6 +37,15 @@ export default {
         currentPlayer(state, value) {
             state.currentPlayer = value
         },
+        playerColour(state, {index, value}) {
+            state.players[index].colour = value
+        },
+        playerName(state, {index, value}) {
+            state.players[index].name = value
+        },
+        playerscore(state, {index, value}) {
+            state.players[index].score = value
+        },
     },
     actions: {
         nextPlayer(context) {
