@@ -92,7 +92,7 @@ export default {
 .game-elements {
   width: 70%;
   height: 100%;
-  min-width: 35em;
+  min-width: 30em;
   min-height: 45em;
   display: inline-block;
   flex-direction: column;
