@@ -1,17 +1,21 @@
 import Vue from 'vue'
 
+const defaultPlayers = [
+    { name: 'Player 0', roundScore: 0, score: 0, colour: "#ff0000" },
+    { name: 'Player 1', roundScore: 0, score: 0, colour: "#40ff00" },
+    { name: 'Player 2', roundScore: 0, score: 0, colour: "#0040ff" },
+]
+const defaultKeepAllScores = false
+const defaultCurrentPlayer = 0
+
 export default {
     namespaced: false,
     state: () => ({
         maxPlayers: 10,
         colours: ['#ff0000', '#40ff00', '#0040ff', '#ff00ff', '#ffbf00', '#449c90', '#8000ff', '#00ff80', '#4420db', '#bb639c'],
-        players: [
-            { name: 'Player 0', roundScore: 0, score: 0, colour: "#ff0000" },
-            { name: 'Player 1', roundScore: 0, score: 0, colour: "#40ff00" },
-            { name: 'Player 2', roundScore: 0, score: 0, colour: "#0040ff" },
-        ],
-        currentPlayer: 0,
-        keepAllScores: false
+        players: defaultPlayers,
+        currentPlayer: defaultCurrentPlayer,
+        keepAllScores: defaultKeepAllScores
     }),
     mutations: {
         keepAllScores(state, value) {
@@ -72,18 +76,15 @@ export default {
             context.state.players[context.state.currentPlayer].roundScore -= cost
         },
         setPlayerDefaultSettings(context) {
-            context.state.players = [
-                { name: 'Player 0', roundScore: 0, score: 0, colour: "#ff0000" },
-                { name: 'Player 1', roundScore: 0, score: 0, colour: "#40ff00" },
-                { name: 'Player 2', roundScore: 0, score: 0, colour: "#0040ff" },
-            ]
-            context.state.keepAllScores = false
-            context.state.currentPlayer = 0
+            context.state.players = defaultPlayers
+            context.state.keepAllScores = defaultKeepAllScores
+            context.state.currentPlayer = defaultCurrentPlayer
         },
         savePlayerSettings(context) {
             Vue.$cookies.set('playerSettings', { "keepAllScores": context.state.keepAllScores, "players": context.state.players, "currentPlayer": context.state.currentPlayer }, 'Infinity', null, null, null, 'Strict');
         },
         loadPlayerSettings(context) {
+            context.dispatch('setPlayerDefaultSettings')
             let values = Vue.$cookies.get("playerSettings");
             if (values != undefined) {
                 if (values.keepAllScores != undefined) {
@@ -95,12 +96,10 @@ export default {
                 if (values.currentPlayer != undefined) {
                     context.state.currentPlayer = values.currentPlayer
                 }
-            } else {
-                context.dispatch('setWheelDefaultSettings')
             }
         },
         clearPlayerSave() {
-            Vue.$cookies.remove("setPlayerDefaultSettings");
+            Vue.$cookies.remove("playerSettings");
         }
     },
 
