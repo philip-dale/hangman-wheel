@@ -101,7 +101,7 @@ export default {
 .player-elements {
   width: 30%;
   height: 100%;
-  min-width: 15em;
+  min-width: 10em;
   min-height: 45em;
   display: inline-block;
   flex-direction: column;
