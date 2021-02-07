@@ -81,7 +81,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  width: 95vw;
+  width: 100%;
   height: 85vh;
   display: flex;
   flex-direction: row;
